@@ -1,5 +1,5 @@
 import React, { useRef, useState, useEffect } from 'react';
-import { View, Text, TouchableOpacity, Pressable } from 'react-native';
+import { View, Text, TouchableOpacity, Pressable,Alert } from 'react-native';
 import { RNCamera } from 'react-native-camera';
 import RNFS from 'react-native-fs';
 import Icon from 'react-native-vector-icons/FontAwesome';
@@ -40,7 +40,15 @@ const VideoRecorderScreen = ({ navigation }) => {
       console.log("uri", uri);
       saveRecording(uri);
       setRecordedFilePath(uri);
-    }
+      Alert.alert('',
+        'Your video save successfully',
+        [
+          { text: 'OK', onPress: () => navigation.navigate('file') },
+        ]
+      );
+    };
+  
+    
   };
   const formatTime = (time) => {
     const minutes = Math.floor(time / 60);
@@ -114,14 +122,14 @@ const VideoRecorderScreen = ({ navigation }) => {
           <View style={{ flex: 1, }}>
 
             <View style={{ flex: 1, justifyContent: 'space-between', alignItems: 'center', flexDirection: 'row' }}>
-     
-              <View style={{flexDirection: 'row',justifyContent: 'center',alignItems: 'center'}}>
 
-              <Text>{formatTime(timer)}</Text>
+              <View style={{ flexDirection: 'row', justifyContent: 'center', alignItems: 'center' }}>
 
-              <View style={{ margin: 10, height: 10, width: 10, borderRadius: 50, backgroundColor: 'red' }}></View>
+                <Text>{formatTime(timer)}</Text>
+
+                <View style={{ margin: 10, height: 10, width: 10, borderRadius: 50, backgroundColor: 'red' }}></View>
               </View>
-              <Pressable onPress={() => navigation.navigate('file')} style={{ padding: 10, margin: 10, backgroundColor: 'black',margin :10 }}><Text>Recorded Files</Text></Pressable>
+              <Pressable onPress={() => navigation.navigate('file')} style={{ padding: 10, margin: 10, backgroundColor: 'black', margin: 10 }}><Text>Recorded Files</Text></Pressable>
 
 
 
@@ -130,38 +138,38 @@ const VideoRecorderScreen = ({ navigation }) => {
 
             <View style={{ flex: 8, justifyContent: 'flex-end' }}>
 
-              <View style={{ height: 100, flexDirection: 'column', justifyContent: 'space-between', alignItems: 'center' }}>
+              <View style={{ position: 'absolute', height: 100, width: '100%' }}>
+                {!isRecording ? (
+                  <TouchableOpacity onPress={startRecording} style={{ alignSelf: 'center', backgroundColor: 'black', borderRadius: 10 }}>
+                    <Text style={{ fontSize: 18, marginBottom: 10, color: 'white', padding: 10 }}>Start Recording</Text>
+                  </TouchableOpacity>
+                ) : (
 
+                  <></>
+                )}
 
-                <View style={{ flex: 1 }}>
-                  {!isRecording ? (
-                    <TouchableOpacity onPress={startRecording} style={{ alignSelf: 'center' }}>
-                      <Text style={{ fontSize: 18, marginBottom: 10, color: 'white' }}>Start Recording</Text>
-                    </TouchableOpacity>
-                  ) : (
+                <View style={{ flexDirection: 'row', justifyContent: 'center' }}>
 
-                    <></>
-                  )}
+                  {!pause && isRecording ?
+                    (<Pressable onPress={pauseRecording} style={{ padding: 10, margin: 10, backgroundColor: 'black',borderRadius:5 }}><Text>pause</Text></Pressable>)
 
-                </View>
+                    : <></>
+                  }
 
-                <View style={{ flex: 2, flexDirection: 'row' }}>
+                  {
+                    pause ? (<Pressable onPress={resumeRecording} style={{ padding: 10, margin: 10, backgroundColor: 'black',borderRadius:5 }}><Text>Resume</Text></Pressable>) : <></>
 
-
-
-
-                  {!pause ?
-                    (<Pressable onPress={pauseRecording} style={{ padding: 10, margin: 10, backgroundColor: 'black' }}><Text>pause</Text></Pressable>)
-
-                    : (<Pressable onPress={resumeRecording} style={{ padding: 10, margin: 10, backgroundColor: 'black' }}><Text>Resume</Text></Pressable>)
                   }
                   {
                     isRecording ?
-                      (<Pressable onPress={stopRecording} style={{ padding: 10, margin: 10, backgroundColor: 'black' }}><Text>Stop</Text></Pressable>) : <></>
+                      (<Pressable onPress={stopRecording} style={{ padding: 10, margin: 10, backgroundColor: 'black',borderRadius:5 }}><Text>Stop</Text></Pressable>) : <></>
                   }
-                </View>
 
+                </View>
               </View>
+
+
+
 
 
 

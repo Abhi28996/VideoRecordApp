@@ -13,6 +13,7 @@ const RecordedFilesScreen = ({navigation}) => {
     try {
       const folderPath = RNFS.DocumentDirectoryPath + '/Videos';
       const files = await RNFS.readDir(folderPath);
+      console.log(files);
       setRecordedFiles(files);
     } catch (error) {
       console.log('Error retrieving recorded files:', error);
@@ -22,15 +23,15 @@ const RecordedFilesScreen = ({navigation}) => {
 
   
   return (
-    <View style={{ flex: 1 ,backgroundColor:'grey'}}>
+    <View style={{ flex: 1 ,backgroundColor:'black'}}>
       <FlatList
         data={recordedFiles}
         keyExtractor={(item) => item.name}
-        renderItem={({ item }) => (
+        renderItem={({ item,key }) => (
 
-          <Pressable style={{ padding: 10 }} onPress={()=>navigation.navigate('playvideo',{videoUri:item.path})}>
+          <Pressable style={{ padding: 10 ,margin:10,borderRadius:10,borderColor:'white',borderWidth:1 }} onPress={()=>navigation.navigate('playvideo',{videoUri:item.path})}>
+            <Text>{'Recorded File '}</Text>
             <Text>{item.name}</Text>
-            <Text>{item.path}</Text>
           </Pressable>
         )}
       />
