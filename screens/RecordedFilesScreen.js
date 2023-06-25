@@ -21,26 +21,6 @@ const RecordedFilesScreen = ({navigation}) => {
 
 
   
-  const playVideo = (videoUri) => {
-    // You can customize how you want to play the video here
-    // For example, you can navigate to a separate screen dedicated to video playback
-
-    // Here, we are simply logging the video URI
-    console.log('Playing video:', videoUri);
-  };
-
-  const renderRecordedFile = ({ item }) => {
-    return (
-      <TouchableOpacity onPress={() => playVideo(item.path)} style={{ marginBottom: 20 }}>
-        <Video
-          source={{ uri: item.path }}
-          style={{ width: 300, height: 200 }}
-          resizeMode="contain"
-          paused={true}
-        />
-      </TouchableOpacity>
-    );
-  };
   return (
     <View style={{ flex: 1 ,backgroundColor:'grey'}}>
       <FlatList
